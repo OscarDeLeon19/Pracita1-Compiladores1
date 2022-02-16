@@ -2,6 +2,7 @@ package analisis.lexico;
 
 import java.sql.SQLOutput;
 import static practica.main.Token.*;
+import practica.main.Token;
 
 %%
 %class AnalizadorLexico
@@ -11,14 +12,17 @@ import static practica.main.Token.*;
 %column
 
 
-L=[a-zA-Z_]
+L=[a-zA-Z]
 D=[0-9]
 punto=[.]
-espacio=[ ,\t,\r,\n]+
+espacio=[ ]+
+tab = [\t]+
+salto = [\n]+
+rot = [\r]+
 comilla = [\"]
 decimal = ({D}+{punto}{D}+)
 entero = {D}+
-cadena = {L}.(L|D)*
+cadena = {L}({L}|{D})*
 
 %{
     private String lexema;
@@ -40,8 +44,10 @@ cadena = {L}.(L|D)*
     extra {System.out.println(EXTRA); return EXTRA;}
     Ejecutar {System.out.println(EJECUTAR); return EJECUTAR;}
     {espacio} {/*ignorar*/}
-    {comilla}  {System.out.println("Comillas");}
-    {cadena} {lexema = yytext(); System.out.println(CADENA + ": " + lexema); return CADENA;}
+    {tab} {/*ignorar*/}
+    {salto} {/*ignorar*/}
+    {rot} {/*ignorar*/}
+    {comilla}({cadena}|{espacio})*.{comilla} {lexema = yytext(); System.out.println(CADENA + ": " + lexema); return CADENA;}
     (0)+.{decimal}  {lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;}
     (0)+.{entero} {lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;}
     {decimal}  {lexema = yytext(); System.out.println(DECIMAL + ": " + lexema); return DECIMAL;}
@@ -60,4 +66,6 @@ cadena = {L}.(L|D)*
     "}" {System.out.println(LLAVE_C); return LLAVE_C;}
     "[" {System.out.println(CORCHETE_A); return CORCHETE_A; }
     "]" {System.out.println(CORCHETE_C); return CORCHETE_C; }
+    "=" {System.out.println(SIGNO_IGUAL); return SIGNO_IGUAL;}
+    "," {System.out.println(COMA); return COMA;}
     [^] {System.out.println("Dato Irreconocible"); lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;}

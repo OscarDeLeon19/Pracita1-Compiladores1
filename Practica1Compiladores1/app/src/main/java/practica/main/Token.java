@@ -18,6 +18,8 @@ public enum Token {
     LLAVE_C,
     CORCHETE_A,
     CORCHETE_C,
+    COMA,
+    SIGNO_IGUAL,
     DEF,
     BARRAS,
     PIE,

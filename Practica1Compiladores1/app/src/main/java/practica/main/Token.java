@@ -32,6 +32,7 @@ public enum Token {
     PORCENTAJE,
     TOTAL,
     EXTRA,
-    EJECUTAR
+    EJECUTAR,
+    ERROR
 
 }

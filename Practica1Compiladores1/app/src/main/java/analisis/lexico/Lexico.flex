@@ -5,10 +5,10 @@ import static practica.main.Token.*;
 
 %%
 %class AnalizadorLexico
+%public
 %type Token
 %line
 %column
-%public
 
 
 L=[a-zA-Z_]
@@ -18,6 +18,7 @@ espacio=[ ,\t,\r,\n]+
 comilla = [\"]
 decimal = ({D}+{punto}{D}+)
 entero = {D}+
+cadena = {L}.(L|D)*
 
 %{
     private String lexema;
@@ -39,7 +40,8 @@ entero = {D}+
     extra {System.out.println(EXTRA); return EXTRA;}
     Ejecutar {System.out.println(EJECUTAR); return EJECUTAR;}
     {espacio} {/*ignorar*/}
-    {comilla}.{L}.(L|D+)*.{comilla} {lexema = yytext(); System.out.println(CADENA + ": " + lexema); return CADENA;}
+    {comilla}  {System.out.println("Comillas");}
+    {cadena} {lexema = yytext(); System.out.println(CADENA + ": " + lexema); return CADENA;}
     (0)+.{decimal}  {lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;}
     (0)+.{entero} {lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;}
     {decimal}  {lexema = yytext(); System.out.println(DECIMAL + ": " + lexema); return DECIMAL;}
@@ -58,4 +60,4 @@ entero = {D}+
     "}" {System.out.println(LLAVE_C); return LLAVE_C;}
     "[" {System.out.println(CORCHETE_A); return CORCHETE_A; }
     "]" {System.out.println(CORCHETE_C); return CORCHETE_C; }
-    [^] {System.out.println("Dato Irreconocible"); return ERROR;}
+    [^] {System.out.println("Dato Irreconocible"); lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;}

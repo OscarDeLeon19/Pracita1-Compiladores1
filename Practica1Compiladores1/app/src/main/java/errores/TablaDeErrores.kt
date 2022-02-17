@@ -9,6 +9,10 @@ class TablaDeErrores {
 
     }
 
+    fun getCantidadErrores():Int{
+        return cantidadErroes
+    }
+
     fun getListaDeErrores(): ArrayList<Error>{
         return lista
     }

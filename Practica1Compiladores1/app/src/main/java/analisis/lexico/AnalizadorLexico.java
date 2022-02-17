@@ -4,9 +4,9 @@
 
 package analisis.lexico;
 
-import java.sql.SQLOutput;
+import java.sql.SQLOutput;import java.util.ArrayList;
 import static practica.main.Token.*;
-import practica.main.Token;
+import errores.TablaDeErrores;import practica.main.Token;
 
 
 // See https://github.com/jflex-de/jflex/issues/222
@@ -336,7 +336,13 @@ public class AnalizadorLexico {
   private boolean zzEOFDone;
 
   /* user code: */
-    private String lexema;
+    private TablaDeErrores tabla = new TablaDeErrores();
+
+        public void setTabla(TablaDeErrores tabla){
+            this.tabla = tabla;
+        }
+
+        private String lexema;
 
 
   /**
@@ -732,7 +738,7 @@ public class AnalizadorLexico {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { System.out.println("Dato Irreconocible"); lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;
+            { tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Dato Irreconocible"); System.out.println("Dato Irreconocible"); lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;
             }
             // fall through
           case 37: break;

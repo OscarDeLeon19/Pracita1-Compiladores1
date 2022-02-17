@@ -1,8 +1,8 @@
 package analisis.lexico;
 
-import java.sql.SQLOutput;
+import java.sql.SQLOutput;import java.util.ArrayList;
 import static practica.main.Token.*;
-import practica.main.Token;
+import errores.TablaDeErrores;import practica.main.Token;
 
 %%
 %class AnalizadorLexico
@@ -25,7 +25,13 @@ entero = {D}+
 cadena = {L}({L}|{D})*
 
 %{
-    private String lexema;
+    private TablaDeErrores tabla = new TablaDeErrores();
+
+        public void setTabla(TablaDeErrores tabla){
+            this.tabla = tabla;
+        }
+
+        private String lexema;
 %}
 %%
     Def | def {System.out.println(DEF); return DEF;}
@@ -68,4 +74,4 @@ cadena = {L}({L}|{D})*
     "]" {System.out.println(CORCHETE_C); return CORCHETE_C; }
     "=" {System.out.println(SIGNO_IGUAL); return SIGNO_IGUAL;}
     "," {System.out.println(COMA); return COMA;}
-    [^] {System.out.println("Dato Irreconocible"); lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;}
+    [^] {tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Dato Irreconocible"); System.out.println("Dato Irreconocible"); lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;}

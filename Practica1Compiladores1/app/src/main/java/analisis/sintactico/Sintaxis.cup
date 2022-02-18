@@ -1,0 +1,130 @@
+package analisis.sintactico;
+
+import java_cup.runtime.Symbol;
+import analisis.lexico.AnalizadorLexico;
+
+parser code
+{:
+
+    public parser(AnalizadorLexico lexer) {
+            super(lexer);
+    }
+    public void syntax_error(Symbol s) {
+            System.out.println("Error: " + s.value + " Linea: " + s.left + " Columna: " + s.right);
+        }
+
+
+:};
+
+terminal CADENA, ENTERO, DECIMAL, SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_A, PARENTESIS_C, DOS_PUNTOS, PUNTO_COMA,
+    LLAVE_A, LLAVE_C, CORCHETE_A, CORCHETE_C, COMA, SIGNO_IGUAL, DEF, BARRAS, PIE, TITULO, EJEX, EJEY, ETIQUETAS, VALORES,
+    UNIR, TIPO, CANTIDAD, PORCENTAJE, TOTAL, EXTRA, EJECUTAR, ERROR;
+non terminal s, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, expresion, x_prima, t, t_prima, p, p_prima;
+
+start with s;
+
+s ::=
+    DEF s1
+    | DEF s2
+    | s13
+    | error PUNTO_COMA
+    | error LLAVE_C
+;
+
+s1 ::=
+    BARRAS LLAVE_A s3 LLAVE_C
+;
+
+s2 ::=
+    PIE LLAVE_A s10 LLAVE_C
+;
+
+s3 ::=
+    TITULO DOS_PUNTOS CADENA PUNTO_COMA s3
+    | EJEX DOS_PUNTOS CORCHETE_A s4 CORCHETE_C PUNTO_COMA s3
+    | EJEY DOS_PUNTOS CORCHETE_A s6 CORCHETE_C PUNTO_COMA s3
+    | UNIR DOS_PUNTOS CORCHETE_A s8 CORCHETE_C PUNTO_COMA s3
+    | // epsilon
+;
+
+s4 ::=
+    CADENA s5
+    | CADENA
+;
+
+s5 ::=
+    COMA s4
+;
+
+s6 ::=
+    expresion s7
+    | expresion
+;
+
+s7 ::=
+    COMA s6
+;
+
+s8 ::=
+   LLAVE_A ENTERO COMA ENTERO LLAVE_C s9
+   | LLAVE_A ENTERO COMA ENTERO LLAVE_C
+;
+
+s9 ::=
+    COMA s8
+;
+
+s10 ::=
+    TITULO DOS_PUNTOS CADENA PUNTO_COMA s10
+    | TIPO s11 PUNTO_COMA s10
+   	| ETIQUETAS DOS_PUNTOS CORCHETE_A s4 CORCHETE_C PUNTO_COMA s10
+    | VALORES DOS_PUNTOS CORCHETE_A s6 CORCHETE_C PUNTO_COMA s10
+   	| TOTAL DOS_PUNTOS expresion PUNTO_COMA s10
+    | UNIR DOS_PUNTOS CORCHETE_A s8 CORCHETE_C PUNTO_COMA s10
+    | EXTRA DOS_PUNTOS CADENA PUNTO_COMA s10
+    | // epsilon
+;
+
+s11 ::=
+    CANTIDAD
+    | PORCENTAJE
+;
+
+s12 ::=
+    ENTERO
+    | DECIMAL
+;
+
+s13 ::=
+    EJECUTAR PARENTESIS_A CADENA PARENTESIS_C PUNTO_COMA
+;
+
+expresion ::=
+    t x_prima
+;
+
+x_prima ::=
+    SUMA t x_prima
+    | RESTA t x_prima
+    | // epsilon
+;
+
+t ::=
+    p t_prima
+;
+
+t_prima ::=
+    MULTIPLICACION p t_prima
+    | DIVISION p t_prima
+    | // epsilon
+;
+
+p ::=
+    RESTA p_prima
+    | p_prima
+;
+
+p_prima ::=
+    s12
+    | PARENTESIS_A expresion PARENTESIS_C
+;

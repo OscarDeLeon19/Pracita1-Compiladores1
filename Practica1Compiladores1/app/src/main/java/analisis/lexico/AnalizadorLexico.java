@@ -4,14 +4,14 @@
 
 package analisis.lexico;
 
-import java.sql.SQLOutput;import java.util.ArrayList;
-import static practica.main.Token.*;
-import errores.TablaDeErrores;import practica.main.Token;
+import analisis.sintactico.sym;
+import errores.TablaDeErrores;
+import java_cup.runtime.Symbol;
 
 
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
-public class AnalizadorLexico {
+public class AnalizadorLexico implements java_cup.runtime.Scanner {
 
   /** This character denotes the end of file. */
   public static final int YYEOF = -1;
@@ -332,17 +332,16 @@ public class AnalizadorLexico {
   private boolean zzAtBOL = true;
 
   /** Whether the user-EOF-code has already been executed. */
-  @SuppressWarnings("unused")
   private boolean zzEOFDone;
 
   /* user code: */
     private TablaDeErrores tabla = new TablaDeErrores();
 
-        public void setTabla(TablaDeErrores tabla){
-            this.tabla = tabla;
-        }
+    public void setTabla(TablaDeErrores tabla){
+        this.tabla = tabla;
+    }
 
-        private String lexema;
+    private String lexema;
 
 
   /**
@@ -588,6 +587,18 @@ public class AnalizadorLexico {
   }
 
 
+  /**
+   * Contains user EOF-code, which will be executed exactly once,
+   * when the end of file is reached
+   */
+  private void zzDoEOF() throws java.io.IOException {
+    if (!zzEOFDone) {
+      zzEOFDone = true;
+    
+  yyclose();    }
+  }
+
+
 
 
   /**
@@ -597,7 +608,7 @@ public class AnalizadorLexico {
    * @return the next token.
    * @exception java.io.IOException if any I/O-Error occurs.
    */
-  public Token yylex() throws java.io.IOException {
+  @Override  public java_cup.runtime.Symbol next_token() throws java.io.IOException {
     int zzInput;
     int zzAction;
 
@@ -733,12 +744,13 @@ public class AnalizadorLexico {
 
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
-        return null;
+            zzDoEOF();
+          { return new java_cup.runtime.Symbol(sym.EOF); }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Dato Irreconocible"); System.out.println("Dato Irreconocible"); lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;
+            { tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Dato Irreconocible"); return new Symbol(sym.ERROR, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 37: break;
@@ -748,177 +760,257 @@ public class AnalizadorLexico {
             // fall through
           case 38: break;
           case 3:
-            { lexema = yytext(); System.out.println(COMENTARIO + ": " + lexema); return COMENTARIO;
+            { 
             }
             // fall through
           case 39: break;
           case 4:
-            { System.out.println(PARENTESIS_A); return PARENTESIS_A;
+            { return new Symbol(sym.PARENTESIS_A, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 40: break;
           case 5:
-            { System.out.println(PARENTESIS_C); return PARENTESIS_C;
+            { return new Symbol(sym.PARENTESIS_C, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 41: break;
           case 6:
-            { System.out.println(MULTIPLICACION); return MULTIPLICACION;
+            { return new Symbol(sym.MULTIPLICACION, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 42: break;
           case 7:
-            { System.out.println(SUMA); return SUMA;
+            { return new Symbol(sym.SUMA, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 43: break;
           case 8:
-            { System.out.println(COMA); return COMA;
+            { return new Symbol(sym.COMA, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 44: break;
           case 9:
-            { System.out.println(RESTA); return RESTA;
+            { return new Symbol(sym.RESTA, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 45: break;
           case 10:
-            { System.out.println(DIVISION); return DIVISION;
+            { return new Symbol(sym.DIVISION, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 46: break;
           case 11:
-            { lexema = yytext(); System.out.println(ENTERO + ": " + lexema); return ENTERO;
+            { return new Symbol(sym.ENTERO, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 47: break;
           case 12:
-            { System.out.println(DOS_PUNTOS); return DOS_PUNTOS;
+            { return new Symbol(sym.DOS_PUNTOS, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 48: break;
           case 13:
-            { System.out.println(PUNTO_COMA); return PUNTO_COMA;
+            { return new Symbol(sym.PUNTO_COMA, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 49: break;
           case 14:
-            { System.out.println(SIGNO_IGUAL); return SIGNO_IGUAL;
+            { return new Symbol(sym.SIGNO_IGUAL, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 50: break;
           case 15:
-            { System.out.println(CORCHETE_A); return CORCHETE_A;
+            { return new Symbol(sym.CORCHETE_A, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 51: break;
           case 16:
-            { System.out.println(CORCHETE_C); return CORCHETE_C;
+            { return new Symbol(sym.CORCHETE_C, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 52: break;
           case 17:
-            { System.out.println(LLAVE_A); return LLAVE_A;
+            { return new Symbol(sym.LLAVE_A, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 53: break;
           case 18:
-            { System.out.println(LLAVE_C); return LLAVE_C;
+            { return new Symbol(sym.LLAVE_C, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 54: break;
           case 19:
-            { lexema = yytext(); System.out.println(CADENA + ": " + lexema); return CADENA;
+            { return new Symbol(sym.CADENA, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 55: break;
           case 20:
-            { lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;
+            { tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Los numeros enteros no pueden iniciar en cero"); return new Symbol(sym.ERROR, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 56: break;
           case 21:
-            { lexema = yytext(); System.out.println(DECIMAL + ": " + lexema); return DECIMAL;
+            { return new Symbol(sym.DECIMAL, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 57: break;
           case 22:
-            { System.out.println(DEF); return DEF;
+            { return new Symbol(sym.DEF, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 58: break;
           case 23:
-            { System.out.println(PIE); return PIE;
+            { return new Symbol(sym.PIE, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 59: break;
           case 24:
-            { System.out.println(EJEX); return EJEX;
+            { return new Symbol(sym.EJEX, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 60: break;
           case 25:
-            { System.out.println(EJEY); return EJEY;
+            { return new Symbol(sym.EJEY, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 61: break;
           case 26:
-            { System.out.println(TIPO); return TIPO;
+            { return new Symbol(sym.TIPO, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 62: break;
           case 27:
-            { System.out.println(UNIR); return UNIR;
+            { return new Symbol(sym.UNIR, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 63: break;
           case 28:
-            { System.out.println(EXTRA); return EXTRA;
+            { return new Symbol(sym.EXTRA, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 64: break;
           case 29:
-            { System.out.println(TOTAL); return TOTAL;
+            { return new Symbol(sym.TOTAL, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 65: break;
           case 30:
-            { System.out.println(BARRAS); return BARRAS;
+            { return new Symbol(sym.BARRAS, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 66: break;
           case 31:
-            { System.out.println(TITULO); return TITULO;
+            { return new Symbol(sym.TITULO, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 67: break;
           case 32:
-            { System.out.println(VALORES); return VALORES;
+            { return new Symbol(sym.VALORES, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 68: break;
           case 33:
-            { System.out.println(CANTIDAD); return CANTIDAD;
+            { return new Symbol(sym.CANTIDAD, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 69: break;
           case 34:
-            { System.out.println(EJECUTAR); return EJECUTAR;
+            { return new Symbol(sym.EJECUTAR, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 70: break;
           case 35:
-            { System.out.println(ETIQUETAS); return ETIQUETAS;
+            { return new Symbol(sym.ETIQUETAS, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 71: break;
           case 36:
-            { System.out.println(PORCENTAJE); return PORCENTAJE;
+            { return new Symbol(sym.PORCENTAJE, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 72: break;
           default:
             zzScanError(ZZ_NO_MATCH);
+        }
+      }
+    }
+  }
+
+  /**
+   * Converts an int token code into the name of the
+   * token by reflection on the cup symbol class/interface sym
+   */
+  private static String getTokenName(int token) {
+    try {
+      java.lang.reflect.Field [] classFields = sym.class.getFields();
+      for (int i = 0; i < classFields.length; i++) {
+        if (classFields[i].getInt(null) == token) {
+          return classFields[i].getName();
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace(System.err);
+    }
+
+    return "UNKNOWN TOKEN";
+  }
+
+  /**
+   * Same as next_token but also prints the token to standard out
+   * for debugging.
+   */
+  public java_cup.runtime.Symbol debug_next_token() throws java.io.IOException {
+    java_cup.runtime.Symbol s = next_token();
+    System.out.println( "line:" + (yyline+1) + " col:" + (yycolumn+1) + " --"+ yytext() + "--" + getTokenName(s.sym) + "--");
+    return s;
+  }
+
+  /**
+   * Runs the scanner on input files.
+   *
+   * This main method is the debugging routine for the scanner.
+   * It prints debugging information about each returned token to
+   * System.out until the end of file is reached, or an error occured.
+   *
+   * @param argv   the command line, contains the filenames to run
+   *               the scanner on.
+   */
+  public static void main(String[] argv) {
+    if (argv.length == 0) {
+      System.out.println("Usage : java AnalizadorLexico [ --encoding <name> ] <inputfile(s)>");
+    }
+    else {
+      int firstFilePos = 0;
+      String encodingName = "UTF-8";
+      if (argv[0].equals("--encoding")) {
+        firstFilePos = 2;
+        encodingName = argv[1];
+        try {
+          // Side-effect: is encodingName valid?
+          java.nio.charset.Charset.forName(encodingName);
+        } catch (Exception e) {
+          System.out.println("Invalid encoding '" + encodingName + "'");
+          return;
+        }
+      }
+      for (int i = firstFilePos; i < argv.length; i++) {
+        AnalizadorLexico scanner = null;
+        try {
+          java.io.FileInputStream stream = new java.io.FileInputStream(argv[i]);
+          java.io.Reader reader = new java.io.InputStreamReader(stream, encodingName);
+          scanner = new AnalizadorLexico(reader);
+          while ( !scanner.zzAtEOF ) scanner.debug_next_token();
+        }
+        catch (java.io.FileNotFoundException e) {
+          System.out.println("File not found : \""+argv[i]+"\"");
+        }
+        catch (java.io.IOException e) {
+          System.out.println("IO error scanning file \""+argv[i]+"\"");
+          System.out.println(e);
+        }
+        catch (Exception e) {
+          System.out.println("Unexpected exception:");
+          e.printStackTrace();
         }
       }
     }

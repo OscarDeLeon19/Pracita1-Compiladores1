@@ -3,13 +3,17 @@ package analisis.lexico;
 import java.sql.SQLOutput;import java.util.ArrayList;
 import static practica.main.Token.*;
 import errores.TablaDeErrores;import practica.main.Token;
+import java_cup.runtime.*;
+import analisis.sintactico.sym;
+import static analisis.sintactico.sym.*;
 
 %%
 %class AnalizadorLexico
 %public
-%type Token
 %line
 %column
+%cup
+%cupdebug
 
 
 L=[a-zA-Z]
@@ -27,51 +31,50 @@ cadena = {L}({L}|{D})*
 %{
     private TablaDeErrores tabla = new TablaDeErrores();
 
-        public void setTabla(TablaDeErrores tabla){
-            this.tabla = tabla;
-        }
+    public void setTabla(TablaDeErrores tabla){
+        this.tabla = tabla;
+    }
 
-        private String lexema;
+    private String lexema;
 %}
 %%
-    Def | def {System.out.println(DEF); return DEF;}
-    Barras {System.out.println(BARRAS); return BARRAS;}
-    Pie {System.out.println(PIE); return PIE;}
-    titulo {System.out.println(TITULO); return TITULO; }
-    ejex {System.out.println(EJEX); return EJEX;}
-    ejey {System.out.println(EJEY); return EJEY;}
-    etiquetas {System.out.println(ETIQUETAS); return ETIQUETAS;}
-    valores {System.out.println(VALORES); return VALORES;}
-    unir {System.out.println(UNIR); return UNIR;}
-    tipo {System.out.println(TIPO); return TIPO;}
-    Cantidad {System.out.println(CANTIDAD); return CANTIDAD;}
-    Porcentaje {System.out.println(PORCENTAJE); return PORCENTAJE;}
-    total {System.out.println(TOTAL); return TOTAL;}
-    extra {System.out.println(EXTRA); return EXTRA;}
-    Ejecutar {System.out.println(EJECUTAR); return EJECUTAR;}
+    Def | def {return new Symbol(sym.DEF, yyline+1, yycolumn+1, yytext());}
+    Barras {return new Symbol(sym.BARRAS, yyline+1, yycolumn+1, yytext());}
+    Pie {return new Symbol(sym.PIE, yyline+1, yycolumn+1, yytext());}
+    titulo {return new Symbol(sym.TITULO, yyline+1, yycolumn+1, yytext());}
+    ejex {return new Symbol(sym.EJEX, yyline+1, yycolumn+1, yytext());}
+    ejey {return new Symbol(sym.EJEY, yyline+1, yycolumn+1, yytext());}
+    etiquetas {return new Symbol(sym.ETIQUETAS, yyline+1, yycolumn+1, yytext());}
+    valores {return new Symbol(sym.VALORES, yyline+1, yycolumn+1, yytext());}
+    unir {return new Symbol(sym.UNIR, yyline+1, yycolumn+1, yytext());}
+    tipo {return new Symbol(sym.TIPO, yyline+1, yycolumn+1, yytext());}
+    Cantidad {return new Symbol(sym.CANTIDAD, yyline+1, yycolumn+1, yytext());}
+    Porcentaje {return new Symbol(sym.PORCENTAJE, yyline+1, yycolumn+1, yytext());}
+    total {return new Symbol(sym.TOTAL, yyline+1, yycolumn+1, yytext());}
+    extra {return new Symbol(sym.EXTRA, yyline+1, yycolumn+1, yytext());}
+    Ejecutar {return new Symbol(sym.EJECUTAR, yyline+1, yycolumn+1, yytext());}
     {espacio} {/*ignorar*/}
     {tab} {/*ignorar*/}
     {salto} {/*ignorar*/}
     {rot} {/*ignorar*/}
-    {comilla}({cadena}|{espacio})*.{comilla} {lexema = yytext(); System.out.println(CADENA + ": " + lexema); return CADENA;}
-    (0)+.{decimal}  {lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;}
-    (0)+.{entero} {lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;}
-    {decimal}  {lexema = yytext(); System.out.println(DECIMAL + ": " + lexema); return DECIMAL;}
-    {entero} {lexema = yytext(); System.out.println(ENTERO + ": " + lexema); return ENTERO;}
-    "#".* {lexema = yytext(); System.out.println(COMENTARIO + ": " + lexema); return COMENTARIO;}
-    "+" {System.out.println(SUMA); return SUMA;}
-    "-" {System.out.println(RESTA); return RESTA;}
-    "*" {System.out.println(MULTIPLICACION); return MULTIPLICACION;}
-    "/" {System.out.println(DIVISION); return DIVISION;}
-    "(" {System.out.println(PARENTESIS_A); return PARENTESIS_A;}
-    ")" {System.out.println(PARENTESIS_C); return PARENTESIS_C;}
-    ")" {System.out.println(PARENTESIS_C); return PARENTESIS_C; }
-    ":" {System.out.println(DOS_PUNTOS); return DOS_PUNTOS; }
-    ";" {System.out.println(PUNTO_COMA); return PUNTO_COMA;}
-    "{" {System.out.println(LLAVE_A); return LLAVE_A;}
-    "}" {System.out.println(LLAVE_C); return LLAVE_C;}
-    "[" {System.out.println(CORCHETE_A); return CORCHETE_A; }
-    "]" {System.out.println(CORCHETE_C); return CORCHETE_C; }
-    "=" {System.out.println(SIGNO_IGUAL); return SIGNO_IGUAL;}
-    "," {System.out.println(COMA); return COMA;}
-    [^] {tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Dato Irreconocible"); System.out.println("Dato Irreconocible"); lexema = yytext(); System.out.println(ERROR + ": " + lexema); return ERROR;}
+    {comilla}({cadena}|{espacio})*.{comilla} {return new Symbol(sym.CADENA, yyline+1, yycolumn+1, yytext());}
+    (0)+.{decimal}  {tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Los numeros enteros no pueden iniciar en cero"); return new Symbol(sym.ERROR, yyline+1, yycolumn+1, yytext());}
+    (0)+.{entero} {tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Los numeros enteros no pueden iniciar en cero"); return new Symbol(sym.ERROR, yyline+1, yycolumn+1, yytext());}
+    {decimal}  {return new Symbol(sym.DECIMAL, yyline+1, yycolumn+1, yytext());}
+    {entero} {return new Symbol(sym.ENTERO, yyline+1, yycolumn+1, yytext());}
+    "#".* {}
+    "+" {return new Symbol(sym.SUMA, yyline+1, yycolumn+1, yytext());}
+    "-" {return new Symbol(sym.RESTA, yyline+1, yycolumn+1, yytext());}
+    "*" {return new Symbol(sym.MULTIPLICACION, yyline+1, yycolumn+1, yytext());}
+    "/" {return new Symbol(sym.DIVISION, yyline+1, yycolumn+1, yytext());}
+    "(" { return new Symbol(sym.PARENTESIS_A, yyline+1, yycolumn+1, yytext());}
+    ")" {return new Symbol(sym.PARENTESIS_C, yyline+1, yycolumn+1, yytext());}
+    ":" {return new Symbol(sym.DOS_PUNTOS, yyline+1, yycolumn+1, yytext());}
+    ";" {return new Symbol(sym.PUNTO_COMA, yyline+1, yycolumn+1, yytext());}
+    "{" {return new Symbol(sym.LLAVE_A, yyline+1, yycolumn+1, yytext());}
+    "}" {return new Symbol(sym.LLAVE_C, yyline+1, yycolumn+1, yytext());}
+    "[" {return new Symbol(sym.CORCHETE_A, yyline+1, yycolumn+1, yytext());}
+    "]" {return new Symbol(sym.CORCHETE_C, yyline+1, yycolumn+1, yytext());}
+    "=" {return new Symbol(sym.SIGNO_IGUAL, yyline+1, yycolumn+1, yytext());}
+    "," {return new Symbol(sym.COMA, yyline+1, yycolumn+1, yytext());}
+    [^] {tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Dato Irreconocible"); return new Symbol(sym.ERROR, yyline+1, yycolumn+1, yytext());}

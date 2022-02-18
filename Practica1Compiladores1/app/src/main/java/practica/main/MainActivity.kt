@@ -7,7 +7,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import errores.TablaDeErrores
+import tirke.cupPlugin.parser.CupParser
 import java.io.StringReader
+import analisis.sintactico.parser;
+import org.xml.sax.Parser as Parser1
+
 
 var tabla:TablaDeErrores = TablaDeErrores()
 
@@ -26,17 +30,9 @@ class MainActivity : AppCompatActivity() {
         val str = StringReader(texto)
         val analizador = AnalizadorLexico(str)
         analizador.setTabla(tabla)
+        var par:parser = parser(analizador)
         try {
-            var bandera = true
-            while (bandera) {
-                val tokens = analizador.yylex()
-                if (tokens == null) {
-                    bandera = false
-                }
-                if (tokens == Token.ERROR){
-                    println("ESte es un error")
-                }
-            }
+            par.parse()
         } catch (e: Exception) {
         }
 

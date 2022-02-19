@@ -2,6 +2,7 @@ package analisis.sintactico;
 
 import java_cup.runtime.Symbol;
 import analisis.lexico.AnalizadorLexico;
+import errores.TablaDeErrores;
 
 parser code
 {:
@@ -10,23 +11,34 @@ parser code
             super(lexer);
     }
     public void syntax_error(Symbol s) {
-            System.out.println("Error: " + s.value + " Linea: " + s.left + " Columna: " + s.right);
+            tabla.agregarError(String.valueOf(s.value), s.left, s.right, "Sintactico", "Error de Sintaxis, se esperaba otro token");
         }
 
+    private TablaDeErrores tabla = new TablaDeErrores();
+
+    public void setTabla(TablaDeErrores tabla){
+            this.tabla = tabla;
+    }
 
 :};
 
-terminal CADENA, ENTERO, DECIMAL, SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_A, PARENTESIS_C, DOS_PUNTOS, PUNTO_COMA,
+terminal CADENA, SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_A, PARENTESIS_C, DOS_PUNTOS, PUNTO_COMA,
     LLAVE_A, LLAVE_C, CORCHETE_A, CORCHETE_C, COMA, SIGNO_IGUAL, DEF, BARRAS, PIE, TITULO, EJEX, EJEY, ETIQUETAS, VALORES,
     UNIR, TIPO, CANTIDAD, PORCENTAJE, TOTAL, EXTRA, EJECUTAR, ERROR;
-non terminal s, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, expresion, x_prima, t, t_prima, p, p_prima;
+terminal Double ENTERO, DECIMAL;
+
+non terminal s, s1, s2, s3, s4,s5, s6, s7, s8, s9, s10, s11, s13;
+non terminal Double expresion, s12;
+precedence left SUMA, RESTA;
+precedence left MULTIPLICACION, DIVISION;
 
 start with s;
 
 s ::=
-    DEF s1
-    | DEF s2
+    DEF s1 s
+    | DEF s2 s
     | s13
+    | // epsilon
     | error PUNTO_COMA
     | error LLAVE_C
 ;
@@ -57,8 +69,8 @@ s5 ::=
 ;
 
 s6 ::=
-    expresion s7
-    | expresion
+    expresion:e s7 {:RESULT = e; System.out.println(("Resultado: " + e));:}
+    | expresion:e  {:RESULT = e; System.out.println(("Resultado: " + e));:}
 ;
 
 s7 ::=
@@ -76,10 +88,10 @@ s9 ::=
 
 s10 ::=
     TITULO DOS_PUNTOS CADENA PUNTO_COMA s10
-    | TIPO s11 PUNTO_COMA s10
+    | TIPO DOS_PUNTOS s11 PUNTO_COMA s10
    	| ETIQUETAS DOS_PUNTOS CORCHETE_A s4 CORCHETE_C PUNTO_COMA s10
     | VALORES DOS_PUNTOS CORCHETE_A s6 CORCHETE_C PUNTO_COMA s10
-   	| TOTAL DOS_PUNTOS expresion PUNTO_COMA s10
+   	| TOTAL DOS_PUNTOS expresion:e PUNTO_COMA s10 {:RESULT = e; System.out.println(("Resultado: " + e));:}
     | UNIR DOS_PUNTOS CORCHETE_A s8 CORCHETE_C PUNTO_COMA s10
     | EXTRA DOS_PUNTOS CADENA PUNTO_COMA s10
     | // epsilon
@@ -91,8 +103,8 @@ s11 ::=
 ;
 
 s12 ::=
-    ENTERO
-    | DECIMAL
+    ENTERO:n {:RESULT = n;:}
+    | DECIMAL:d {:RESULT = d;:}
 ;
 
 s13 ::=
@@ -100,31 +112,17 @@ s13 ::=
 ;
 
 expresion ::=
-    t x_prima
-;
-
-x_prima ::=
-    SUMA t x_prima
-    | RESTA t x_prima
-    | // epsilon
-;
-
-t ::=
-    p t_prima
-;
-
-t_prima ::=
-    MULTIPLICACION p t_prima
-    | DIVISION p t_prima
-    | // epsilon
-;
-
-p ::=
-    RESTA p_prima
-    | p_prima
-;
-
-p_prima ::=
-    s12
-    | PARENTESIS_A expresion PARENTESIS_C
+           s12:n {: RESULT = n; :}
+        | expresion:e1 SUMA expresion:e2
+                    {: RESULT = e1 + e2; :}
+        | expresion:e1 RESTA expresion:e2
+                    {: RESULT = e1 - e2; :}
+        | expresion:e1 MULTIPLICACION expresion:e2
+                    {: RESULT = e1 * e2; :}
+        | expresion:e1 DIVISION expresion:e2
+                    {: RESULT = e1 / e2; :}
+        | RESTA expresion:e
+                    {:RESULT = 0 - e;:}
+        | PARENTESIS_A expresion:e PARENTESIS_C
+                    {:RESULT = e;:}
 ;

@@ -23,5 +23,9 @@ class TablaDeErrores {
         cantidadErroes++
     }
 
+    fun reiniciarTabla() {
+        lista.clear()
+        cantidadErroes = 0;
+    }
 
 }

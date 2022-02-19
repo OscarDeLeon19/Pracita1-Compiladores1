@@ -58,10 +58,10 @@ cadena = {L}({L}|{D})*
     {salto} {/*ignorar*/}
     {rot} {/*ignorar*/}
     {comilla}({cadena}|{espacio})*.{comilla} {return new Symbol(sym.CADENA, yyline+1, yycolumn+1, yytext());}
-    (0)+.{decimal}  {tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Los numeros enteros no pueden iniciar en cero"); return new Symbol(sym.ERROR, yyline+1, yycolumn+1, yytext());}
-    (0)+.{entero} {tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Los numeros enteros no pueden iniciar en cero"); return new Symbol(sym.ERROR, yyline+1, yycolumn+1, yytext());}
-    {decimal}  {return new Symbol(sym.DECIMAL, yyline+1, yycolumn+1, yytext());}
-    {entero} {return new Symbol(sym.ENTERO, yyline+1, yycolumn+1, yytext());}
+    {decimal}  {return new Symbol(sym.DECIMAL, yyline+1, yycolumn+1, new Double(yytext()));}
+    {entero} {System.out.println("Entero: " + yytext()); return new Symbol(sym.ENTERO, yyline+1, yycolumn+1, new Double(yytext()));}
+    0.(0)+.{decimal}  {System.out.println("Error: " + yytext()); tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Los numeros enteros no pueden iniciar en cero"); return new Symbol(sym.ERROR, yyline+1, yycolumn+1, yytext());}
+    0.(0)+.{entero} {System.out.println("Error: " + yytext()); tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Los numeros enteros no pueden iniciar en cero"); return new Symbol(sym.ERROR, yyline+1, yycolumn+1, yytext());}
     "#".* {}
     "+" {return new Symbol(sym.SUMA, yyline+1, yycolumn+1, yytext());}
     "-" {return new Symbol(sym.RESTA, yyline+1, yycolumn+1, yytext());}

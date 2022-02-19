@@ -24,13 +24,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun eventoBoton1(view: View) {
+        tabla.reiniciarTabla()
         var areaTexto:EditText = findViewById(R.id.areaTexto)
         var texto = areaTexto.text.toString();
         println(texto)
         val str = StringReader(texto)
         val analizador = AnalizadorLexico(str)
-        analizador.setTabla(tabla)
         var par:parser = parser(analizador)
+        par.setTabla(tabla)
+        analizador.setTabla(tabla)
         try {
             par.parse()
         } catch (e: Exception) {

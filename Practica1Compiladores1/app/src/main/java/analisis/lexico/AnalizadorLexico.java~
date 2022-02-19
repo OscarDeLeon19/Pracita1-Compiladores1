@@ -811,7 +811,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
             // fall through
           case 46: break;
           case 11:
-            { System.out.println("Entero: " + yytext()); return new Symbol(sym.ENTERO, yyline+1, yycolumn+1, new Double(yytext()));
+            { System.out.println("Entero: " + yytext()); return new Symbol(sym.ENTERO, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 47: break;
@@ -856,7 +856,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
             // fall through
           case 55: break;
           case 20:
-            { return new Symbol(sym.DECIMAL, yyline+1, yycolumn+1, new Double(yytext()));
+            { return new Symbol(sym.DECIMAL, yyline+1, yycolumn+1, yytext());
             }
             // fall through
           case 56: break;

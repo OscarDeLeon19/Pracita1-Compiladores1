@@ -8,47 +8,45 @@ package analisis.sintactico;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int MULTIPLICACION = 7;
+  public static final int MULTIPLICACION = 5;
   public static final int CADENA = 2;
-  public static final int DECIMAL = 4;
-  public static final int DIVISION = 8;
-  public static final int SUMA = 5;
-  public static final int ETIQUETAS = 25;
-  public static final int ERROR = 34;
-  public static final int EJECUTAR = 33;
-  public static final int PORCENTAJE = 30;
-  public static final int TIPO = 28;
-  public static final int DOS_PUNTOS = 11;
-  public static final int VALORES = 26;
-  public static final int BARRAS = 20;
-  public static final int COMA = 17;
-  public static final int TOTAL = 31;
+  public static final int DECIMAL = 34;
+  public static final int DIVISION = 6;
+  public static final int SUMA = 3;
+  public static final int ETIQUETAS = 23;
+  public static final int ERROR = 32;
+  public static final int EJECUTAR = 31;
+  public static final int PORCENTAJE = 28;
+  public static final int TIPO = 26;
+  public static final int DOS_PUNTOS = 9;
+  public static final int VALORES = 24;
+  public static final int BARRAS = 18;
+  public static final int COMA = 15;
+  public static final int TOTAL = 29;
   public static final int EOF = 0;
-  public static final int DEF = 19;
-  public static final int PIE = 21;
-  public static final int EXTRA = 32;
-  public static final int CANTIDAD = 29;
-  public static final int PARENTESIS_C = 10;
+  public static final int DEF = 17;
+  public static final int PIE = 19;
+  public static final int EXTRA = 30;
+  public static final int CANTIDAD = 27;
+  public static final int PARENTESIS_C = 8;
   public static final int error = 1;
-  public static final int SIGNO_IGUAL = 18;
-  public static final int PARENTESIS_A = 9;
-  public static final int LLAVE_C = 14;
-  public static final int EJEY = 24;
-  public static final int LLAVE_A = 13;
-  public static final int PUNTO_COMA = 12;
-  public static final int EJEX = 23;
-  public static final int ENTERO = 3;
-  public static final int CORCHETE_C = 16;
-  public static final int UNIR = 27;
-  public static final int CORCHETE_A = 15;
-  public static final int TITULO = 22;
-  public static final int RESTA = 6;
+  public static final int PARENTESIS_A = 7;
+  public static final int SIGNO_IGUAL = 16;
+  public static final int LLAVE_C = 12;
+  public static final int EJEY = 22;
+  public static final int LLAVE_A = 11;
+  public static final int PUNTO_COMA = 10;
+  public static final int EJEX = 21;
+  public static final int ENTERO = 33;
+  public static final int CORCHETE_C = 14;
+  public static final int UNIR = 25;
+  public static final int CORCHETE_A = 13;
+  public static final int TITULO = 20;
+  public static final int RESTA = 4;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "CADENA",
-  "ENTERO",
-  "DECIMAL",
   "SUMA",
   "RESTA",
   "MULTIPLICACION",
@@ -78,7 +76,9 @@ public class sym {
   "TOTAL",
   "EXTRA",
   "EJECUTAR",
-  "ERROR"
+  "ERROR",
+  "ENTERO",
+  "DECIMAL"
   };
 }
 

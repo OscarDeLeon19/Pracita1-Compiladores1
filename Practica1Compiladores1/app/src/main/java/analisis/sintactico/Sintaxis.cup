@@ -3,6 +3,7 @@ package analisis.sintactico;
 import java_cup.runtime.Symbol;
 import analisis.lexico.AnalizadorLexico;
 import errores.TablaDeErrores;
+import graficos.TablaDeGraficas;
 
 parser code
 {:
@@ -15,19 +16,26 @@ parser code
         }
 
     private TablaDeErrores tabla = new TablaDeErrores();
+    private TablaDeGraficas graficas = new TablaDeGraficas();
 
     public void setTabla(TablaDeErrores tabla){
             this.tabla = tabla;
     }
 
+    public void setGraficas(TablaDeGraficas graficas){
+                this.graficas = graficas;
+        }
+
 :};
 
-terminal CADENA, SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_A, PARENTESIS_C, DOS_PUNTOS, PUNTO_COMA,
+terminal SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_A, PARENTESIS_C, DOS_PUNTOS, PUNTO_COMA,
     LLAVE_A, LLAVE_C, CORCHETE_A, CORCHETE_C, COMA, SIGNO_IGUAL, DEF, BARRAS, PIE, TITULO, EJEX, EJEY, ETIQUETAS, VALORES,
-    UNIR, TIPO, CANTIDAD, PORCENTAJE, TOTAL, EXTRA, EJECUTAR, ERROR;
+    UNIR, TIPO, TOTAL, EXTRA, EJECUTAR, ERROR;
 terminal Double ENTERO, DECIMAL;
+terminal String CADENA, CANTIDAD, PORCENTAJE;
 
-non terminal s, s1, s2, s3, s4,s5, s6, s7, s8, s9, s10, s11, s13;
+non terminal s, s1, s2, s3, s4,s5, s6, s7, s8, s9, s10, s13;
+non terminal String s11;
 non terminal Double expresion, s12;
 precedence left SUMA, RESTA;
 precedence left MULTIPLICACION, DIVISION;
@@ -44,24 +52,24 @@ s ::=
 ;
 
 s1 ::=
-    BARRAS LLAVE_A s3 LLAVE_C
+    BARRAS LLAVE_A s3 LLAVE_C {: graficas.agregarGrafica(1);:}
 ;
 
 s2 ::=
-    PIE LLAVE_A s10 LLAVE_C
+    PIE LLAVE_A s10 LLAVE_C {: graficas.agregarGrafica(2);:}
 ;
 
 s3 ::=
-    TITULO DOS_PUNTOS CADENA PUNTO_COMA s3
-    | EJEX DOS_PUNTOS CORCHETE_A s4 CORCHETE_C PUNTO_COMA s3
-    | EJEY DOS_PUNTOS CORCHETE_A s6 CORCHETE_C PUNTO_COMA s3
-    | UNIR DOS_PUNTOS CORCHETE_A s8 CORCHETE_C PUNTO_COMA s3
+    TITULO DOS_PUNTOS CADENA:c PUNTO_COMA s3 {: graficas.agregarTexto(c, 1, cleft, cright); :}
+    | EJEX:x DOS_PUNTOS CORCHETE_A s4 CORCHETE_C PUNTO_COMA s3  {:graficas.asignarCadenas(1,xleft,xright);:}
+    | EJEY:y DOS_PUNTOS CORCHETE_A s6 CORCHETE_C PUNTO_COMA s3  {: graficas.asignarNumeros(1, yleft, yright); :}
+    | UNIR:u DOS_PUNTOS CORCHETE_A s8 CORCHETE_C PUNTO_COMA s3  {: graficas.asignarUniones(1, uleft, uright); :}
     | // epsilon
 ;
 
 s4 ::=
-    CADENA s5
-    | CADENA
+    CADENA:cadena s5  {: graficas.agregarCadenas(cadena); :}
+    | CADENA:cadena  {: graficas.agregarCadenas(cadena); :}
 ;
 
 s5 ::=
@@ -69,8 +77,8 @@ s5 ::=
 ;
 
 s6 ::=
-    expresion:e s7 {:RESULT = e; System.out.println(("Resultado: " + e));:}
-    | expresion:e  {:RESULT = e; System.out.println(("Resultado: " + e));:}
+    expresion:e s7 {:RESULT = e; graficas.agregarNumeros(e);:}
+    | expresion:e  {:RESULT = e; graficas.agregarNumeros(e);:}
 ;
 
 s7 ::=
@@ -78,8 +86,8 @@ s7 ::=
 ;
 
 s8 ::=
-   LLAVE_A ENTERO COMA ENTERO LLAVE_C s9
-   | LLAVE_A ENTERO COMA ENTERO LLAVE_C
+   LLAVE_A ENTERO:entero1 COMA ENTERO:entero2 LLAVE_C s9 {:graficas.agregarEntero(entero1, entero2); :}
+   | LLAVE_A ENTERO:entero1 COMA ENTERO:entero2 LLAVE_C {: graficas.agregarEntero(entero1, entero2);:}
 ;
 
 s9 ::=
@@ -87,19 +95,19 @@ s9 ::=
 ;
 
 s10 ::=
-    TITULO DOS_PUNTOS CADENA PUNTO_COMA s10
-    | TIPO DOS_PUNTOS s11 PUNTO_COMA s10
-   	| ETIQUETAS DOS_PUNTOS CORCHETE_A s4 CORCHETE_C PUNTO_COMA s10
-    | VALORES DOS_PUNTOS CORCHETE_A s6 CORCHETE_C PUNTO_COMA s10
-   	| TOTAL DOS_PUNTOS expresion:e PUNTO_COMA s10 {:RESULT = e; System.out.println(("Resultado: " + e));:}
-    | UNIR DOS_PUNTOS CORCHETE_A s8 CORCHETE_C PUNTO_COMA s10
-    | EXTRA DOS_PUNTOS CADENA PUNTO_COMA s10
+    TITULO DOS_PUNTOS CADENA:c PUNTO_COMA s10 {: graficas.agregarTexto(c, 2, cleft, cright); :}
+    | TIPO DOS_PUNTOS s11:c PUNTO_COMA s10    {: graficas.agregarTexto(c, 3, cleft, cright); :}
+   	| ETIQUETAS:x DOS_PUNTOS CORCHETE_A s4 CORCHETE_C PUNTO_COMA s10 {:graficas.asignarCadenas(2,xleft,xright);:}
+    | VALORES:y DOS_PUNTOS CORCHETE_A s6 CORCHETE_C PUNTO_COMA s10 {: graficas.asignarNumeros(2, yleft, yright); :}
+   	| TOTAL DOS_PUNTOS expresion:e PUNTO_COMA s10 {:RESULT = e; graficas.asignarTotal(e, eleft, eright);:}
+    | UNIR:u DOS_PUNTOS CORCHETE_A s8 CORCHETE_C PUNTO_COMA s10 {: graficas.asignarUniones(2, uleft, uright); :}
+    | EXTRA DOS_PUNTOS CADENA:c PUNTO_COMA s10 {: graficas.agregarTexto(c, 4, cleft, cright); :}
     | // epsilon
 ;
 
 s11 ::=
-    CANTIDAD
-    | PORCENTAJE
+    CANTIDAD:c {:RESULT = c;:}
+    | PORCENTAJE:c {:RESULT = c;:}
 ;
 
 s12 ::=

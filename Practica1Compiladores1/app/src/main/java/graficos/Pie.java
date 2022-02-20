@@ -6,9 +6,9 @@ public class Pie extends Grafica{
 
     private ArrayList<String> etiquetas = new ArrayList<>();
     private ArrayList<Double> valores = new ArrayList<>();
-    private String tipo;
-    private double total;
-    private String extra;
+    private String tipo = "";
+    private double total = 0;
+    private String extra = "";
 
     public Pie(String titulo, ArrayList<Integer> unir, ArrayList<String> etiquetas, ArrayList<Double> valores, String tipo, double total, String extra) {
         super(titulo, unir);
@@ -60,5 +60,25 @@ public class Pie extends Grafica{
 
     public void setExtra(String extra) {
         this.extra = extra;
+    }
+
+    public void agregarEtiqueta(String etiqueta){
+        etiquetas.add(etiqueta);
+    }
+
+    public void agregarValor(double valor){
+        valores.add(valor);
+    }
+
+    public void agregarTotal(double nuevoTotal){
+        total = nuevoTotal;
+    }
+
+    public void agregarTipo(String nuevo_tipo){
+        tipo = nuevo_tipo;
+    }
+
+    public void agregarExtra(String nuevo_extra){
+        extra = nuevo_extra;
     }
 }

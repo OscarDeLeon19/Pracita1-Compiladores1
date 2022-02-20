@@ -34,7 +34,7 @@ public class Barra extends Grafica{
     }
 
     public void agregarEjeX(String eje){
-        ejeX.add(eje.substring(1,eje.length()-1));
+        ejeX.add(eje);
     }
 
     public void agregarEjeY(double eje){

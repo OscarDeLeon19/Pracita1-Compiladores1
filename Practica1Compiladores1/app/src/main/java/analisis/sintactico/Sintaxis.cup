@@ -45,18 +45,18 @@ start with s;
 s ::=
     DEF s1 s
     | DEF s2 s
-    | s13
+    | s13 s
     | // epsilon
     | error PUNTO_COMA
     | error LLAVE_C
 ;
 
 s1 ::=
-    BARRAS LLAVE_A s3 LLAVE_C {: graficas.agregarGrafica(1);:}
+    BARRAS:b LLAVE_A s3 LLAVE_C {: graficas.agregarGrafica(1, bleft, bright);:}
 ;
 
 s2 ::=
-    PIE LLAVE_A s10 LLAVE_C {: graficas.agregarGrafica(2);:}
+    PIE:p LLAVE_A s10 LLAVE_C {: graficas.agregarGrafica(2, pleft, pright);:}
 ;
 
 s3 ::=
@@ -116,7 +116,7 @@ s12 ::=
 ;
 
 s13 ::=
-    EJECUTAR PARENTESIS_A CADENA PARENTESIS_C PUNTO_COMA
+    EJECUTAR PARENTESIS_A CADENA:c PARENTESIS_C PUNTO_COMA {:graficas.agregarEjecucion(c, cleft, cright); :}
 ;
 
 expresion ::=

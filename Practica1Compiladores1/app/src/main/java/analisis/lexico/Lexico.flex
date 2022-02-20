@@ -1,8 +1,7 @@
 package analisis.lexico;
 
 import java.sql.SQLOutput;import java.util.ArrayList;
-import static practica.main.Token.*;
-import errores.TablaDeErrores;import practica.main.Token;
+import errores.TablaDeErrores;
 import java_cup.runtime.*;
 import analisis.sintactico.sym;
 import static analisis.sintactico.sym.*;

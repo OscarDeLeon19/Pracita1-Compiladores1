@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     fun eventoBoton1(view: View) {
         tabla.reiniciarTabla()
         graficas.reiniciarLista()
+        graficas.reiniciarEjecuciones()
         var areaTexto:EditText = findViewById(R.id.areaTexto)
         var texto = areaTexto.text.toString();
         println(texto)
@@ -46,10 +47,10 @@ class MainActivity : AppCompatActivity() {
         if (tabla.getCantidadErrores() > 0){
             var lista = tabla.getListaDeErrores()
             lista.forEach{
-                println("Error: Lexema: ${it.getLexema()} Linea: ${it.getLinea()} Columna: ${it.getColumna()} Tipo: ${it.getTipo()}")
+                println("Error: Lexema: ${it.getLexema()} Linea: ${it.getLinea()} Columna: ${it.getColumna()} Tipo: ${it.getTipo()} Descripcion: ${it.getDescripcion()  }")
             }
         } else {
-            var lista = graficas.lista;
+            var lista = graficas.listaDeEjecuciones;
             println("Cantidad de graficas: " + lista.size)
             for (i in lista.indices) {
                 if (lista[i] is Barra) {

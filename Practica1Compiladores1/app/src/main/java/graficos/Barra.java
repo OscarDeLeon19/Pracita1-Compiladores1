@@ -1,8 +1,9 @@
 package graficos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Barra extends Grafica{
+public class Barra extends Grafica implements Serializable {
 
     private ArrayList<String> ejeX = new ArrayList<>();
     private ArrayList<Double> ejeY = new ArrayList<>();

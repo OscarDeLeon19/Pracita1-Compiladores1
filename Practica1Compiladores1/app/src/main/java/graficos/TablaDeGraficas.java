@@ -1,10 +1,11 @@
 package graficos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import errores.TablaDeErrores;
 
-public class TablaDeGraficas {
+public class TablaDeGraficas implements Serializable {
 
     private ArrayList<Grafica> lista = new ArrayList<>();
     private ArrayList<String> cadenas = new ArrayList<>();

@@ -1,8 +1,9 @@
 package graficos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Grafica {
+public class Grafica implements Serializable {
 
     private String titulo = "";
     private ArrayList<Integer> unir = new ArrayList<>();
@@ -10,6 +11,10 @@ public class Grafica {
     public Grafica(String titulo, ArrayList<Integer> unir) {
         this.titulo = titulo;
         this.unir = unir;
+
+        for(int i = 0; i<3; i++){
+
+        }
     }
 
     public Grafica() {

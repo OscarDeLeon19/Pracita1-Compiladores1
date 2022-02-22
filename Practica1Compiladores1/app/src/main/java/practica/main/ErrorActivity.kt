@@ -12,14 +12,14 @@ import errores.Error
 import errores.TablaDeErrores
 
 class ErrorActivity : AppCompatActivity() {
-    var tabla:TableLayout?= null
+    var tablaLayout:TableLayout?= null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_error)
 
-        tabla = findViewById(R.id.tablaErrores)
+        tablaLayout = findViewById(R.id.tablaErrores)
         var objetoEnviado = intent.extras
         var tabla = TablaDeErrores()
         if (objetoEnviado != null){
@@ -30,10 +30,7 @@ class ErrorActivity : AppCompatActivity() {
     }
 
     fun agregarDatos(lista: ArrayList<Error>){
-
-
         for (i in -1 until  lista.size){
-            println("Ejecucion de erroes")
             val registro = LayoutInflater.from(this).inflate(R.layout.item_tabla_layout, null,false)
             val itemLexema = registro.findViewById<View>(R.id.itemLexema) as TextView
             val itemLinea = registro.findViewById<View>(R.id.itemLinea) as TextView
@@ -84,12 +81,15 @@ class ErrorActivity : AppCompatActivity() {
                 itemDescripcion.setBackgroundColor(Color.GRAY)
                 itemDescripcion.setTextColor(Color.BLACK);
             }
-            tabla?.addView(registro)
+            tablaLayout?.addView(registro)
         }
     }
 
     fun eventoBoton1(view: View) {
+        var textoEnviado = intent.getStringExtra("textoArea");
+        println("Texto Enviado: " + textoEnviado)
         val miIntent = Intent(this@ErrorActivity, MainActivity::class.java)
+        miIntent.putExtra("textoArea", textoEnviado)
         startActivity(miIntent);
     }
 }

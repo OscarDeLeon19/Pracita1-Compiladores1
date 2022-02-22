@@ -21,7 +21,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        // iniciarAplicacion();
+        var nuevoTexto = intent.getStringExtra("textoArea")
+        println("Nuevo Texto Enviado: " + nuevoTexto)
+        var areaTexto:EditText = findViewById(R.id.areaTexto)
+        areaTexto.setText(nuevoTexto);
 
     }
 
@@ -50,9 +53,18 @@ class MainActivity : AppCompatActivity() {
             val miIntent = Intent(this@MainActivity, ErrorActivity::class.java)
             val miBundle = Bundle()
             miBundle.putSerializable("Tabla", tabla)
+            miBundle.putString("textoArea", texto)
             miIntent.putExtras(miBundle)
             startActivity(miIntent)
         } else {
+            val miIntent = Intent(this@MainActivity, EjecucionActivity::class.java)
+            var miBundle = Bundle()
+            miBundle.putSerializable("tablaDeGraficas", graficas)
+            miBundle.putString("textoArea", texto)
+            miIntent.putExtras(miBundle)
+            startActivity(miIntent)
+
+
             var lista = graficas.listaDeEjecuciones;
             println("Cantidad de graficas: " + lista.size)
             for (i in lista.indices) {
@@ -73,7 +85,6 @@ class MainActivity : AppCompatActivity() {
                     println("Extra: " + nueva.extra)
                 }
             }
-            println("No hay errores en el programa")
         }
 
     }

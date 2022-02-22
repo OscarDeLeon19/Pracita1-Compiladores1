@@ -1,8 +1,9 @@
 package graficos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Pie extends Grafica{
+public class Pie extends Grafica implements Serializable {
 
     private ArrayList<String> etiquetas = new ArrayList<>();
     private ArrayList<Double> valores = new ArrayList<>();

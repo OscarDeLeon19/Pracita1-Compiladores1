@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Practica1Compiladores1">
         <activity
+            android:name=".ActividadReporte2"
+            android:exported="false" />
+        <activity
             android:name=".ActividadReporte1"
             android:exported="false" />
         <activity

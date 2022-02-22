@@ -12,10 +12,12 @@ import graficos.Pie
 import graficos.TablaDeGraficas
 import java.io.StringReader
 import android.content.Intent
+import ocurrencias.TablaDeOcurrencias
 
 
 var tabla:TablaDeErrores = TablaDeErrores()
 var graficas:TablaDeGraficas = TablaDeGraficas()
+var operadores:TablaDeOcurrencias = TablaDeOcurrencias()
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         graficas.setErrores(tabla)
         par.setTabla(tabla)
         par.setGraficas(graficas);
+        par.setTablaDeOcurrencias(operadores)
         analizador.setTabla(tabla)
         try {
             par.parse()
@@ -60,6 +63,7 @@ class MainActivity : AppCompatActivity() {
             val miIntent = Intent(this@MainActivity, EjecucionActivity::class.java)
             var miBundle = Bundle()
             miBundle.putSerializable("tablaDeGraficas", graficas)
+            miBundle.putSerializable("tablaDeOcurrencias", operadores)
             miBundle.putString("textoArea", texto)
             miIntent.putExtras(miBundle)
             startActivity(miIntent)

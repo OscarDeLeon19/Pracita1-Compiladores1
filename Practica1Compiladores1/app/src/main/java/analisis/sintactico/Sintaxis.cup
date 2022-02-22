@@ -4,6 +4,7 @@ import java_cup.runtime.Symbol;
 import analisis.lexico.AnalizadorLexico;
 import errores.TablaDeErrores;
 import graficos.TablaDeGraficas;
+import ocurrencias.TablaDeOcurrencias;
 
 parser code
 {:
@@ -17,10 +18,15 @@ parser code
 
     private TablaDeErrores tabla = new TablaDeErrores();
     private TablaDeGraficas graficas = new TablaDeGraficas();
+    private TablaDeOcurrencias ocurrencias = new TablaDeOcurrencias();
 
     public void setTabla(TablaDeErrores tabla){
             this.tabla = tabla;
     }
+
+    public void setTablaDeOcurrencias(TablaDeOcurrencias ocurrencias){
+                this.ocurrencias = ocurrencias;
+        }
 
     public void setGraficas(TablaDeGraficas graficas){
                 this.graficas = graficas;
@@ -121,14 +127,14 @@ s13 ::=
 
 expresion ::=
            s12:n {: RESULT = n; :}
-        | expresion:e1 SUMA expresion:e2
-                    {: RESULT = e1 + e2; :}
-        | expresion:e1 RESTA expresion:e2
-                    {: RESULT = e1 - e2; :}
-        | expresion:e1 MULTIPLICACION expresion:e2
-                    {: RESULT = e1 * e2; :}
-        | expresion:e1 DIVISION expresion:e2
-                    {: RESULT = e1 / e2; :}
+        | expresion:e1 SUMA:o expresion:e2
+                    {: RESULT = e1 + e2; ocurrencias.agregarOcurrencia("Suma", oleft, oright, e1 + " + " + e2);:}
+        | expresion:e1 RESTA:o expresion:e2
+                    {: RESULT = e1 - e2; ocurrencias.agregarOcurrencia("Resta", oleft, oright, e1 + " - " + e2);:}
+        | expresion:e1 MULTIPLICACION:o expresion:e2
+                    {: RESULT = e1 * e2; ocurrencias.agregarOcurrencia("Multiplicacion", oleft, oright, e1 + " * " + e2);:}
+        | expresion:e1 DIVISION:o expresion:e2
+                    {: RESULT = e1 / e2; ocurrencias.agregarOcurrencia("Division", oleft, oright, e1 + " / " + e2);:}
         | RESTA expresion:e
                     {:RESULT = 0 - e;:}
         | PARENTESIS_A expresion:e PARENTESIS_C

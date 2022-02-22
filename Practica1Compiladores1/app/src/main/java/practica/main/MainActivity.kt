@@ -11,6 +11,7 @@ import graficos.Barra
 import graficos.Pie
 import graficos.TablaDeGraficas
 import java.io.StringReader
+import android.content.Intent
 
 
 var tabla:TablaDeErrores = TablaDeErrores()
@@ -46,9 +47,11 @@ class MainActivity : AppCompatActivity() {
 
         if (tabla.getCantidadErrores() > 0){
             var lista = tabla.getListaDeErrores()
-            lista.forEach{
-                println("Error: Lexema: ${it.getLexema()} Linea: ${it.getLinea()} Columna: ${it.getColumna()} Tipo: ${it.getTipo()} Descripcion: ${it.getDescripcion()  }")
-            }
+            val miIntent = Intent(this@MainActivity, ErrorActivity::class.java)
+            val miBundle = Bundle()
+            miBundle.putSerializable("Tabla", tabla)
+            miIntent.putExtras(miBundle)
+            startActivity(miIntent)
         } else {
             var lista = graficas.listaDeEjecuciones;
             println("Cantidad de graficas: " + lista.size)

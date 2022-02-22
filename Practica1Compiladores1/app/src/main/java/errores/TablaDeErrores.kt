@@ -1,6 +1,8 @@
 package errores
 
-class TablaDeErrores {
+import java.io.Serializable
+
+class TablaDeErrores : Serializable {
 
     private var cantidadErroes = 0;
     private var lista = arrayListOf<Error>()
@@ -26,6 +28,8 @@ class TablaDeErrores {
     fun reiniciarTabla() {
         lista.clear()
         cantidadErroes = 0;
+
+
     }
 
 }

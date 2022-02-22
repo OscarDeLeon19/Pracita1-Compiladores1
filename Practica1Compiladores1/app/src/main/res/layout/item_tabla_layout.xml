@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <TableRow
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="409dp"
+        android:layout_height="729dp" >
+
+        <TextView
+            android:id="@+id/itemLexema"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="TextView" />
+
+    <TextView
+        android:id="@+id/itemLinea"
+        android:layout_width="0dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.20"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/itemColumna"
+        android:layout_width="0dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.20"
+        android:text="TextView" />
+
+        <TextView
+            android:id="@+id/itemTipo"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="TextView" />
+
+    <TextView
+        android:id="@+id/itemDescripcion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.30"
+        android:text="TextView" />
+    </TableRow>

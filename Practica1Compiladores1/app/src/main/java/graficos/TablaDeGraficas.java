@@ -191,6 +191,7 @@ public class TablaDeGraficas {
         } else {
             errores.agregarError("Total", linea, columna, "Sintactico", "La instruccion esta repetida");
         }
+
     }
 
 

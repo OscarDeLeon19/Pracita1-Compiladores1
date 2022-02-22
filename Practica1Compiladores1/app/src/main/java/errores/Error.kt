@@ -1,6 +1,8 @@
 package errores
 
-class Error {
+import java.io.Serializable
+
+class Error: Serializable {
 
     private var lexema = ""
     private var linea = 0

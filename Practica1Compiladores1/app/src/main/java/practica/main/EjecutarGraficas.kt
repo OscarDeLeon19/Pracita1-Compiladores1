@@ -8,10 +8,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.LegendEntry
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.android.material.transition.MaterialSharedAxis
 import graficos.Barra
 import graficos.Grafica
 import graficos.Pie
@@ -97,7 +100,55 @@ class EjecutarGraficas : AppCompatActivity() {
 
         for (i  in  lista.indices){
             if (lista[i] is Barra){
+
+                var graficaBarra = lista[i] as Barra
+                val registro = LayoutInflater.from(this).inflate(R.layout.item_grafica1, null, false)
+                val itemGrafica1 = registro.findViewById<View>(R.id.itemGraficaBar) as BarChart
+
+                var listaEtiquetas = graficaBarra.ejeX
+                var listaValores = graficaBarra.ejeY
+                var listaUniones = graficaBarra.unir
+
+                itemGrafica1.description.setText(graficaBarra.titulo)
+                itemGrafica1.description.setTextSize(16f)
+
+                var entradas = ArrayList<BarEntry>()
+
+                var leyenda = itemGrafica1.legend
+                leyenda.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER)
+
+                var etiquetas = ArrayList<String>()
+
+
+                var i = 0
+                var pos = 0
+                while (i < listaUniones.size) {
+
+                    etiquetas.add(listaEtiquetas[listaUniones[i]])
+                    var entrada = BarEntry(pos.toFloat(),listaValores[listaUniones[i+1]].toFloat())
+                    entradas.add(entrada)
+                    pos++
+                    i+=2
+                }
+
+                var xasis = itemGrafica1.xAxis
+                xasis.setGranularityEnabled(true)
+                xasis.setPosition(XAxis.XAxisPosition.TOP)
+                var index = IndexAxisValueFormatter(etiquetas)
+                xasis.setValueFormatter(index)
+
+                var dataSet = BarDataSet(entradas, "Grafica Barras")
+
+                var data = BarData(dataSet)
+                data.setBarWidth(0.4f)
+                dataSet.setColors(colors)
+                itemGrafica1.setData(data)
+                itemGrafica1.setFitBars(true)
+                tablaLayout?.addView(registro)
+
+
             }else if (lista[i] is Pie){
+                /*
                 println("Se encontro graficaPie")
                 var graficaPie = lista[i] as Pie
                 val registro = LayoutInflater.from(this).inflate(R.layout.item_grafica1, null, false)
@@ -144,6 +195,9 @@ class EjecutarGraficas : AppCompatActivity() {
                 itemGrafica1.setCenterText(graficaPie.titulo)
                 dataSet.setFormLineWidth(4F)
                 tablaLayout?.addView(registro)
+
+
+                 */
             }
         }
 

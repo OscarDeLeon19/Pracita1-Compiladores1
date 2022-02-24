@@ -6,12 +6,7 @@
         android:layout_width="409dp"
         android:layout_height="729dp" >
 
-    <com.github.mikephil.charting.charts.PieChart
 
-        android:id="@+id/itemGraficaPie"
-        android:layout_width="0dp"
-        android:layout_height="600dp"
-        android:layout_weight="1" />
 
     <com.github.mikephil.charting.charts.BarChart
 

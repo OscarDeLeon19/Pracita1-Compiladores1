@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Practica1Compiladores1">
         <activity
+            android:name=".EjecucionGraficas"
+            android:exported="false" />
+        <activity
+            android:name=".EjecutarGraficas"
+            android:exported="false" />
+        <activity
             android:name=".ActividadReporte2"
             android:exported="false" />
         <activity

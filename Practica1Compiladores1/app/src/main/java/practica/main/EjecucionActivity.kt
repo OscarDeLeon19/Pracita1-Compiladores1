@@ -25,7 +25,11 @@ class EjecucionActivity : AppCompatActivity() {
     }
 
     fun eventoVerGraficas(view: View) {
-
+        val miIntent = Intent(this@EjecucionActivity, EjecucionGraficas::class.java)
+        var miBundle = Bundle()
+        miBundle.putSerializable("tablaDeGraficas", graficas)
+        miIntent.putExtras(miBundle)
+        startActivity(miIntent)
     }
     fun verReporte1(view: View) {
         val miIntent = Intent(this@EjecucionActivity, ActividadReporte1::class.java)

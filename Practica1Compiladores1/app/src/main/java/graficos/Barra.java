@@ -15,7 +15,6 @@ public class Barra extends Grafica implements Serializable {
     }
 
     public Barra(){
-
     }
 
     public ArrayList<String> getEjeX() {

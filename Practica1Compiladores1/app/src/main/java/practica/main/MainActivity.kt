@@ -12,6 +12,7 @@ import graficos.Pie
 import graficos.TablaDeGraficas
 import java.io.StringReader
 import android.content.Intent
+import com.github.mikephil.charting.charts.PieChart
 import ocurrencias.TablaDeOcurrencias
 
 
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun eventoBoton1(view: View) {
+
+
         tabla.reiniciarTabla()
         graficas.reiniciarLista()
         graficas.reiniciarEjecuciones()

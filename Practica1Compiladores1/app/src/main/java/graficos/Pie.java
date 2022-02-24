@@ -21,6 +21,7 @@ public class Pie extends Grafica implements Serializable {
     }
 
     public Pie() {
+
     }
 
     public ArrayList<String> getEtiquetas() {

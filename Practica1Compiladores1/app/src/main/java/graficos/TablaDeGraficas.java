@@ -68,12 +68,39 @@ public class TablaDeGraficas implements Serializable {
             errores.agregarError("DEF", linea, columna, "Sintactico", "No se pueden agregar mas graficas despues de la instruccion ejecutar");
         } else {
             if (valor == 1) {
-                System.out.println("ASS: " + 2);
                 lista.add(barra);
                 barra = null;
                 Barra nueva = new Barra();
                 barra = nueva;
             } else if (valor == 2) {
+                if (pie.getTipo().equals("")){
+                    errores.agregarError("DEF", linea, columna, "Sintactico", "El tipo de grafica no esta definida");
+                } else {
+                        if (pie.getTitulo().equals("")){
+                            errores.agregarError("DEF", linea, columna, "Sintactico", "Falta atributo de titulo");
+                        }
+                        if (pie.getUnir().size() == 0){
+                            errores.agregarError("DEF", linea, columna, "Sintactico", "Falta atributo de unir");
+                        }
+                        if (pie.getEtiquetas().size() == 0){
+                            errores.agregarError("DEF", linea, columna, "Sintactico", "Falta atributo de Etiquetas");
+                        }
+                        if (pie.getValores().size() == 0){
+                            errores.agregarError("DEF", linea, columna, "Sintactico", "Falta atributo de Valores");
+                        }
+                    if (pie.getExtra().equals("")){
+                        errores.agregarError("DEF", linea, columna, "Sintactico", "Falta atributo de extra");
+                    }
+                    if (pie.getTipo().equals("Porcentaje")){
+                        if (pie.getTotal() != 0){
+                            errores.agregarError("DEF", linea, columna, "Sintactico", "El atributo total no debe estar definido");
+                        }
+                    } else if (pie.getTipo().equals("Cantidad")){
+                        if (pie.getTotal() == 0){
+                            errores.agregarError("DEF", linea, columna, "Sintactico", "Falta el atributo Total");
+                        }
+                    }
+                }
                 lista.add(pie);
                 pie = null;
                 Pie nuevo_pie = new Pie();

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <TableRow
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="409dp"
+        android:layout_height="729dp" >
+
+    <com.github.mikephil.charting.charts.PieChart
+
+        android:id="@+id/itemGraficaPie"
+        android:layout_width="0dp"
+        android:layout_height="600dp"
+        android:layout_weight="1" />
+
+    <com.github.mikephil.charting.charts.BarChart
+
+        android:id="@+id/itemGraficaBar"
+        android:layout_width="0dp"
+        android:layout_height="600dp"
+        android:layout_weight="1" />
+
+    </TableRow>

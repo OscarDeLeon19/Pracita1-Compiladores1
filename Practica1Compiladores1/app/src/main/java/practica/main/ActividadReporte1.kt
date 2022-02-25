@@ -15,6 +15,9 @@ import graficos.TablaDeGraficas
 class ActividadReporte1 : AppCompatActivity() {
     var tablaLayout: TableLayout?= null
 
+    /**
+     * Actividad en donde se muestran los datos del reporte de graficos definidos
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_actividad_reporte1)
@@ -24,13 +27,14 @@ class ActividadReporte1 : AppCompatActivity() {
         if (objetoEnviado!=null){
             tablaDeGraficas = objetoEnviado.getSerializable("tablaDeGraficas") as TablaDeGraficas
         }
-
-        var lista = tablaDeGraficas.lista
+        var lista = tablaDeGraficas.listaGraficasDefinidas
         agregarDatos(lista)
     }
 
+    /**
+     * Agrega los datos del reporte a una tabla para poder visualizarse
+     */
     fun agregarDatos(lista: ArrayList<Grafica>){
-        println("Cantidad de graficas definidas: " + lista.size)
         var cantidadBarras = 0;
         var cantidadPie = 0;
         for (i  in  lista.indices){
@@ -40,7 +44,6 @@ class ActividadReporte1 : AppCompatActivity() {
                 cantidadPie++;
             }
         }
-
         for (i in 0..2) {
             val registro = LayoutInflater.from(this).inflate(R.layout.item_reporte1, null, false)
             val itemObjeto = registro.findViewById<View>(R.id.itemObjeto) as TextView

@@ -14,6 +14,9 @@ class Error: Serializable {
 
     }
 
+    /**
+     * Constructor de la clase Error
+     */
     constructor(lexema:String, linea:Int,columna:Int, tipo:String, descripcion:String){
         this.lexema = lexema
         this.linea = linea
@@ -22,22 +25,37 @@ class Error: Serializable {
         this.descripcion = descripcion
     }
 
+    /**
+     * Regresa el lexema en donde se encuentra el error
+     */
     fun getLexema(): String {
         return lexema;
     }
 
+    /**
+     * Obtiene la linea en donde ocurrio el error
+     */
     fun getLinea(): Int {
         return linea;
     }
 
+    /**
+     * Obtiene la columna en donde ocurrio un error
+     */
     fun getColumna(): Int {
         return columna;
     }
 
+    /**
+     * Obtiene el tipo de error
+     */
     fun getTipo(): String {
         return tipo;
     }
 
+    /**
+     * Obtiene la descripcion del error
+     */
     fun getDescripcion(): String {
         return descripcion;
     }

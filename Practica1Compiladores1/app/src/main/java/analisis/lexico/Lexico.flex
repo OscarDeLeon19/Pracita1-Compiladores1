@@ -56,7 +56,7 @@ cadena = {L}({L}|{D})*
     {tab} {/*ignorar*/}
     {salto} {/*ignorar*/}
     {rot} {/*ignorar*/}
-    {comilla}({cadena}|{espacio}|{entero})*.{comilla} {return new Symbol(sym.CADENA, yyline+1, yycolumn+1, yytext());}
+    {comilla}({cadena}|{espacio}|{entero}|{decimal})*.{comilla} {return new Symbol(sym.CADENA, yyline+1, yycolumn+1, yytext());}
     {decimal}  {return new Symbol(sym.DECIMAL, yyline+1, yycolumn+1, new Double(yytext()));}
     {entero} {return new Symbol(sym.ENTERO, yyline+1, yycolumn+1, new Double(yytext()));}
     0.(0)+.{decimal}  {System.out.println("Error: " + yytext()); tabla.agregarError(yytext(), yyline, yycolumn, "Lexico", "Los numeros enteros no pueden iniciar en cero"); return new Symbol(sym.ERROR, yyline+1, yycolumn+1, yytext());}

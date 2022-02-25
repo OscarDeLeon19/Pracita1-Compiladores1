@@ -12,6 +12,9 @@ class EjecucionActivity : AppCompatActivity() {
     var tablaDeGraficas = TablaDeGraficas()
     var tablaDeOcurrencias = TablaDeOcurrencias()
 
+    /**
+     * Metodo que muestra las acciones a realizar en caso no hay errores lexicos o de sintaxis
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ejecucion)
@@ -24,6 +27,9 @@ class EjecucionActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Cambia a la actividad para visualizar las graficas para ejecutarse
+     */
     fun eventoVerGraficas(view: View) {
         val miIntent = Intent(this@EjecucionActivity, EjecucionGraficas::class.java)
         var miBundle = Bundle()
@@ -31,6 +37,10 @@ class EjecucionActivity : AppCompatActivity() {
         miIntent.putExtras(miBundle)
         startActivity(miIntent)
     }
+
+    /**
+     * Metodo que cambia a la actividad del reporte de graficas definidas
+     */
     fun verReporte1(view: View) {
         val miIntent = Intent(this@EjecucionActivity, ActividadReporte1::class.java)
         var miBundle = Bundle()
@@ -38,6 +48,10 @@ class EjecucionActivity : AppCompatActivity() {
         miIntent.putExtras(miBundle)
         startActivity(miIntent)
     }
+
+    /**
+     * Metodo que cambia a la actividad del reporte de ocurrencias de operadores
+     */
     fun verReporte2(view: View) {
         val miIntent = Intent(this@EjecucionActivity, ActividadReporte2::class.java)
         var miBundle = Bundle()

@@ -21,19 +21,18 @@ var graficas:TablaDeGraficas = TablaDeGraficas()
 var operadores:TablaDeOcurrencias = TablaDeOcurrencias()
 
 class MainActivity : AppCompatActivity() {
+    /**
+     * Actividad inicial en donde esta el area de texto y un boton para realizar las acciones de la aplicacion
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         var nuevoTexto = intent.getStringExtra("textoArea")
-        println("Nuevo Texto Enviado: " + nuevoTexto)
         var areaTexto:EditText = findViewById(R.id.areaTexto)
         areaTexto.setText(nuevoTexto);
-
     }
 
     fun eventoBoton1(view: View) {
-
-
         tabla.reiniciarTabla()
         graficas.reiniciarLista()
         graficas.reiniciarEjecuciones()
@@ -70,29 +69,6 @@ class MainActivity : AppCompatActivity() {
             miBundle.putString("textoArea", texto)
             miIntent.putExtras(miBundle)
             startActivity(miIntent)
-
-
-            var lista = graficas.listaDeEjecuciones;
-            println("Cantidad de graficas: " + lista.size)
-            for (i in lista.indices) {
-                if (lista[i] is Barra) {
-                    val nueva = lista[i] as Barra
-                    println("Titulo: " + nueva.titulo)
-                    println("EjesX: " + nueva.ejeX)
-                    println("Ejesy: " + nueva.ejeY)
-                    println("Uniones: " + nueva.unir)
-                } else if (lista[i] is Pie){
-                    val nueva = lista[i] as Pie
-                    println("Titulo: " + nueva.titulo)
-                    println("Tipo: " + nueva.tipo)
-                    println("Etiquetas: " + nueva.etiquetas)
-                    println("Valores: " + nueva.valores)
-                    println("Uniones: " + nueva.unir)
-                    println("Total: " + nueva.total)
-                    println("Extra: " + nueva.extra)
-                }
-            }
         }
-
     }
 }

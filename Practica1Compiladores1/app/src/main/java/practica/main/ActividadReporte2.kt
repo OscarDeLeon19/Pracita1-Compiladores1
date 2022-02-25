@@ -7,13 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TableLayout
 import android.widget.TextView
-import graficos.TablaDeGraficas
 import ocurrencias.Ocurrencia
 import ocurrencias.TablaDeOcurrencias
 
 class ActividadReporte2 : AppCompatActivity() {
     var tablaLayout: TableLayout?= null
 
+    /**
+     * Actividad que muestra los datos del reporte de ocurrencia de operadores
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_actividad_reporte2)
@@ -23,11 +25,13 @@ class ActividadReporte2 : AppCompatActivity() {
         if (objetoEnviado!=null){
             tablaDeOcurrencias = objetoEnviado.getSerializable("tablaDeOcurrencias") as TablaDeOcurrencias
         }
-
         var lista = tablaDeOcurrencias.lista
         agregarDatos(lista)
     }
 
+    /**
+     * Agrega la lista de ocurrencias a una tabla para poder visualizarse
+     */
     fun agregarDatos(lista: ArrayList<Ocurrencia>){
         for (i in -1 until  lista.size){
             val registro = LayoutInflater.from(this).inflate(R.layout.item_reporte2, null,false)
@@ -35,7 +39,6 @@ class ActividadReporte2 : AppCompatActivity() {
             val itemLinea = registro.findViewById<View>(R.id.itemLineaOP) as TextView
             val itemColumna = registro.findViewById<View>(R.id.itemColumnaOP) as TextView
             val itemEjemplo = registro.findViewById<View>(R.id.itemEjemplo) as TextView
-
             if (i == -1){
                 itemOperador.setText("Operador")
                 itemOperador.setBackgroundColor(Color.BLACK)
@@ -52,13 +55,10 @@ class ActividadReporte2 : AppCompatActivity() {
                 itemEjemplo.setText("Tipo")
                 itemEjemplo.setBackgroundColor(Color.BLACK)
                 itemEjemplo.setTextColor(Color.WHITE);
-
             } else {
-
                 itemOperador.setText(lista[i].operador)
                 itemOperador.setBackgroundColor(Color.GRAY)
                 itemOperador.setTextColor(Color.BLACK);
-
 
                 itemLinea.setText(lista[i].getLinea().toString())
                 itemLinea.setBackgroundColor(Color.GRAY)

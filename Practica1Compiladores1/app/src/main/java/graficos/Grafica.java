@@ -8,49 +8,52 @@ public class Grafica implements Serializable {
     private String titulo = "";
     private ArrayList<Integer> unir = new ArrayList<>();
 
+    /**
+     * Constructor de la clase Grafica de la cual heredan Barra y Pie
+     * @param titulo El titulo de la grafica
+     * @param unir El valor unir de la grafica
+     */
     public Grafica(String titulo, ArrayList<Integer> unir) {
         this.titulo = titulo;
         this.unir = unir;
-
-        for(int i = 0; i<3; i++){
-
-        }
     }
 
+    /**
+     * Constructor vacio de la clase Grafica
+     */
     public Grafica() {
     }
 
+    /**
+     * Obtiene el titulo de la grafica
+     * @return El titulo
+     */
     public String getTitulo() {
         return titulo;
     }
 
+    /**
+     * Devuelve los valores de las uniones de la grafica
+     * @return Los valores unir
+     */
     public ArrayList<Integer> getUnir() {
         return unir;
     }
 
-    public void setUnir(ArrayList<Integer> unir) {
-        this.unir = unir;
-    }
-
+    /**
+     * Agrega un valor a la lista de uniones
+     * @param union El valor a la lista
+     */
     public void agregarUnion(int union){
         unir.add(union);
     }
 
+    /**
+     * Agrega el titulo de la grafica
+     * @param nuevotitulo El titulo
+     */
     public  void agregarTitulo(String nuevotitulo){
         titulo = nuevotitulo.substring(1, nuevotitulo.length()-1);
     }
 
-
-/*
-    public void ver(){
-        for (int i = 0; i<lista.size(); i++){
-            Grafica graf = lista.get(i);
-            if (graf instanceof Barra){
-                Barra bar = (Barra) graf;
-                System.out.println("Titulo: " + bar.getTitulo());
-            }
-        }
-    }
-
- */
 }

@@ -14,7 +14,9 @@ import errores.TablaDeErrores
 class ErrorActivity : AppCompatActivity() {
     var tablaLayout:TableLayout?= null
 
-
+    /**
+     * Muestra la tabla de errores que pueden ocurrir en el programa
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_error)
@@ -29,6 +31,9 @@ class ErrorActivity : AppCompatActivity() {
         agregarDatos(listaDeErrores)
     }
 
+    /**
+     * Agrega los datos de los errores a una tabla para visualizarse
+     */
     fun agregarDatos(lista: ArrayList<Error>){
         for (i in -1 until  lista.size){
             val registro = LayoutInflater.from(this).inflate(R.layout.item_tabla_layout, null,false)
@@ -85,6 +90,9 @@ class ErrorActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Regresa a la actividad con el area de texto
+     */
     fun eventoBoton1(view: View) {
         var textoEnviado = intent.getStringExtra("textoArea");
         println("Texto Enviado: " + textoEnviado)

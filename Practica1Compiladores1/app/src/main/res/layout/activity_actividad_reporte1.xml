@@ -10,31 +10,26 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:text="Reporte de Graficos Definidos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:layout_width="365dp"
-        android:layout_height="458dp"
-        android:layout_marginTop="64dp"
+        android:layout_width="333dp"
+        android:layout_height="403dp"
+        android:layout_marginTop="36dp"
         android:layout_weight="1"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView4">
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <TableLayout
             android:id="@+id/tablaReporte1"
-            android:layout_width="372dp"
-            android:layout_height="578dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.487"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -54,4 +49,5 @@
         </TableLayout>
 
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

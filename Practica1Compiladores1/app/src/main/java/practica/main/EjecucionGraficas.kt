@@ -29,11 +29,11 @@ class EjecucionGraficas : AppCompatActivity() {
         }
         var lista = tablaDeGraficas.listaDeEjecuciones
         var layoutL = findViewById(R.id.linealLayout) as LinearLayout
-        var parametrosLayout = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT)
-        parametrosLayout.bottomMargin = 100
+        var parametrosLayout = LinearLayout.LayoutParams(700,700)
+        parametrosLayout.bottomMargin = 200
+        parametrosLayout.leftMargin = 100
+        parametrosLayout.rightMargin = 100
         parametrosLayout.gravity = 1
-        parametrosLayout.width = 600
-        parametrosLayout.height=600
         // Obtiene todos los colores que se usaran en las graficas
         var colors = ArrayList<Int>()
         for (color in ColorTemplate.MATERIAL_COLORS) {

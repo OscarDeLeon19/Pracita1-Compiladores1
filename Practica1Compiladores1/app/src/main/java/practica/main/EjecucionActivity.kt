@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import graficos.TablaDeGraficas
 import ocurrencias.TablaDeOcurrencias
 
@@ -31,11 +32,15 @@ class EjecucionActivity : AppCompatActivity() {
      * Cambia a la actividad para visualizar las graficas para ejecutarse
      */
     fun eventoVerGraficas(view: View) {
-        val miIntent = Intent(this@EjecucionActivity, EjecucionGraficas::class.java)
-        var miBundle = Bundle()
-        miBundle.putSerializable("tablaDeGraficas", graficas)
-        miIntent.putExtras(miBundle)
-        startActivity(miIntent)
+        if (graficas.listaDeEjecuciones.size == 0){
+            Toast.makeText(this,"No hay graficas listas para ejecucion",Toast.LENGTH_SHORT).show()
+        } else {
+            val miIntent = Intent(this@EjecucionActivity, EjecucionGraficas::class.java)
+            var miBundle = Bundle()
+            miBundle.putSerializable("tablaDeGraficas", graficas)
+            miIntent.putExtras(miBundle)
+            startActivity(miIntent)
+        }
     }
 
     /**

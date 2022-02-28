@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         tabla.reiniciarTabla()
         graficas.reiniciarLista()
         graficas.reiniciarEjecuciones()
+        operadores.reiniciarLista()
         var areaTexto:EditText = findViewById(R.id.areaTexto)
         var texto = areaTexto.text.toString();
         println(texto)

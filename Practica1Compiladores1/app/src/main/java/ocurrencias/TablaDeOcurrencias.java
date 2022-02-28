@@ -47,6 +47,12 @@ public class TablaDeOcurrencias implements Serializable {
     public void agregarOcurrencia(String operador, int linea, int columna, String ejemplo){
         Ocurrencia nueva_ocurrencia = new Ocurrencia(operador, linea, columna, ejemplo);
         lista.add(nueva_ocurrencia);
+    }
 
+    /**
+     * Reinicia la lista de ocurrencias
+     */
+    public void reiniciarLista(){
+        lista.clear();
     }
 }
